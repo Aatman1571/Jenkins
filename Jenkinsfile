@@ -4,27 +4,34 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo 'Compilando el proyecto Spam Detection...'
+                echo 'Building the Spam Detection project...'
             }
         }
 
         stage('Test') {
             steps {
-                echo 'Ejecutando pruebas del modelo de detección de spam...'
+                echo 'Running tests for the spam detection model...'
             }
         }
 
         stage('Security Scan') {
             steps {
-                echo 'Ejecutando escaneo de dependencias con OWASP Dependency-Check...'
-                sh '/opt/dependency-check/bin/dependency-check.sh --project "SpamDetection" --scan . --format HTML --out dependency-report'
+                echo 'Running dependency scan with OWASP Dependency-Check plugin...'
+                dependencyCheck additionalArguments: '', outdir: 'dependency-check-report'
             }
         }
 
         stage('Deploy') {
             steps {
-                echo 'Simulando despliegue del modelo...'
+                echo 'Simulating deployment of the spam detection model...'
             }
+        }
+    }
+
+    post {
+        always {
+            echo 'Publishing the Dependency-Check report...'
+            dependencyCheckPublisher pattern: '**/dependency-check-report/dependency-check-report.xml'
         }
     }
 }
