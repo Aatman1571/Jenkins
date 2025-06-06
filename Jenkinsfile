@@ -31,7 +31,7 @@ pipeline {
     post {
         always {
             echo 'Publishing the Dependency-Check report...'
-            dependencyCheckPublisher pattern: '**/dependency-check-report/dependency-check-report.xml'
+            dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
         }
     }
 }
