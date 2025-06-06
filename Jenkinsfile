@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    tools {
+        dependencyCheck 'Default' // Only include this if you've configured a tool
+    }
+
     stages {
         stage('Build') {
             steps {
@@ -17,7 +21,7 @@ pipeline {
         stage('Security Scan') {
             steps {
                 echo 'Running dependency scan with OWASP Dependency-Check plugin...'
-                dependencyCheck additionalArguments: '', outdir: 'dependency-check-report'
+                dependencyCheck additionalArguments: ''
             }
         }
 
